@@ -82,6 +82,9 @@ public class HookMain implements IXposedHookLoadPackage {
         XposedBridge.log(LOG_TAG + ": Hooked " + getPackageInfoMethod.toString());
 
         Method getApplicationInfoMethod = findBestMethod(cls, "getApplicationInfo");
+        if (getApplicationInfoMethod == null) {
+            return;
+        }
         XposedBridge.hookMethod(getApplicationInfoMethod, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
@@ -97,6 +100,9 @@ public class HookMain implements IXposedHookLoadPackage {
         XposedBridge.log(LOG_TAG + ": Hooked " + getApplicationInfoMethod.toString());
 
         Method getInstalledApplicationsMethod = findBestMethod(cls, "getInstalledApplications");
+        if (getInstalledApplicationsMethod == null) {
+            return;
+        }
         XposedBridge.hookMethod(getInstalledApplicationsMethod, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
@@ -115,6 +121,9 @@ public class HookMain implements IXposedHookLoadPackage {
         XposedBridge.log(LOG_TAG + ": Hooked " + getInstalledApplicationsMethod.toString());
 
         Method startMethod = findBestMethod(Process.class, "start");
+        if (startMethod == null) {
+            return;
+        }
         XposedBridge.hookMethod(startMethod, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
@@ -131,6 +140,9 @@ public class HookMain implements IXposedHookLoadPackage {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             Method getInstalledApplicationsListInternalMethod = findBestMethod(cls, "getInstalledApplicationsListInternal");
+            if (getInstalledApplicationsListInternalMethod == null) {
+                return;
+            }
             XposedBridge.hookMethod(getInstalledApplicationsListInternalMethod, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
